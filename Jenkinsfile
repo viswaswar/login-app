@@ -3,11 +3,18 @@ pipeline {
  
     stages {
  
-        stage('Checkout') {
-            steps {
-                git 'https://github.com/viswaswar/login-app.git'
+        // stage('Checkout') {
+        //     steps {
+        //         git 'https://github.com/viswaswar/login-app.git'
+        //     }
+        // }
+        
+            stage('Checkout') {
+                steps {
+                    sh 'git clone https://github.com/viswaswar/login-app.git'
+                }
             }
-        }
+
  
         stage('Zip Files') {
             steps {
