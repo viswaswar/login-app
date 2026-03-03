@@ -9,10 +9,29 @@ pipeline {
             }
         }
  
+        stage('Zip Files') {
+            steps {
+                sh 'zip -r app.zip .'
+            }
+        }
+ 
         stage('Deploy to Azure') {
             steps {
-                echo "Deploy static files to Azure"
+                withCredentials([usernamePassword(
+                    credentialsId: 'azure-loginpage',
+                    usernameVariable: 'AZ_USER',
+                    passwordVariable: 'AZ_PASS'
+                )]) {
+ 
+                    sh '''
+                    curl -X POST \
+                    -u $AZ_USER:$AZ_PASS \
+                    --data-binary @app.zip \
+                    https://Newloginpage.scm.azurewebsites.net/api/zipdeploy
+                    '''
+                }
             }
         }
     }
 }
+ 
