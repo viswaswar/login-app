@@ -1,27 +1,18 @@
 pipeline {
     agent any
  
-    tools {
-        maven 'Maven3'   // Maven name configured in Jenkins
-    }
- 
     stages {
  
-        stage('Checkout Code') {
+        stage('Checkout') {
             steps {
-                // Pull code from GitHub repo
-                git branch: 'main',
-                    url: 'https://github.com/viswaswar/login-app.git'
+                git 'https://github.com/viswaswar/login-app.git'
             }
         }
  
-        stage('Maven Build') {
+        stage('Deploy to Azure') {
             steps {
-                // Clean and package project
-                sh 'mvn clean package'
+                echo "Deploy static files to Azure"
             }
         }
- 
     }
 }
- 
